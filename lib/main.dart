@@ -25,7 +25,7 @@ class App extends StatelessWidget {
         accentColor: Colors.greenAccent[700],
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      themeMode: context.watch<ThemeModeStorage>().mode,
+      themeMode: ThemeMode.dark,
       initialRoute: '/login',
       routes: {
         '/login': (context) => LoginPage(),
@@ -43,7 +43,6 @@ class App extends StatelessWidget {
 void main() {
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => ThemeModeStorage()),
       Provider(create: (context) => HttpApiClient()),
       ChangeNotifierProxyProvider<HttpApiClient, UserRepo>(
         create: (context) => UserRepo(),

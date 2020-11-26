@@ -1,4 +1,3 @@
-import 'package:day_night_switcher/day_night_switcher.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:logger_flutter/logger_flutter.dart';
@@ -11,23 +10,6 @@ import '../models/imported_resource.dart';
 import '../repos/imported_resources.dart';
 import '../repos/user.dart';
 import '../utils/paginators.dart';
-
-
-class ThemeModeStorage extends ChangeNotifier {
-  ThemeMode _mode = ThemeMode.dark;
-
-  ThemeMode get mode => _mode;
-
-  set mode(ThemeMode mode) {
-    _mode = mode;
-    notifyListeners();
-  }
-
-  toggle() {
-    _mode = _mode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
-    notifyListeners();
-  }
-}
 
 
 class SelectedScreenStore with ChangeNotifier {
@@ -90,34 +72,24 @@ class LeftMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     var user = context.watch<UserRepo>().currentUser;
     var theme = Theme.of(context);
-    var themeMode = context.watch<ThemeModeStorage>();
 
     return ListView(
       children: [
-        Stack(
-          alignment: AlignmentDirectional.topEnd,
-          children: [
-            GestureDetector(
-              onTap: () => _profile(context),
-              child: UserAccountsDrawerHeader(
-                decoration: BoxDecoration(color: Colors.transparent),
-                currentAccountPicture: CircleAvatar(
-                  backgroundColor: theme.primaryColor,
-                  child: Icon(
-                    Icons.person,
-                    size: 50,
-                    color: theme.backgroundColor,
-                  ),
-                ),
-                accountName: Text(user.shortName),
-                accountEmail: Text(user.email ?? ''),
+        GestureDetector(
+          onTap: () => _profile(context),
+          child: UserAccountsDrawerHeader(
+            decoration: BoxDecoration(color: Colors.transparent),
+            currentAccountPicture: CircleAvatar(
+              backgroundColor: theme.primaryColor,
+              child: Icon(
+                Icons.person,
+                size: 50,
+                color: theme.backgroundColor,
               ),
             ),
-            DayNightSwitcherIcon(
-              isDarkModeEnabled: themeMode.mode == ThemeMode.dark,
-              onStateChanged: (_) => themeMode.toggle(),
-            ),
-          ],
+            accountName: Text(user.shortName),
+            accountEmail: Text(user.email ?? ''),
+          ),
         ),
         ListTile(
           leading: Icon(Icons.help_outline),
