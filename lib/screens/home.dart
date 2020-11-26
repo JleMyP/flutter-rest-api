@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:logger_flutter/logger_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -207,12 +208,37 @@ class BodyState extends State<Body> {
     }
 
     var item = paginator.items[index];
-    return ListTile(
-      leading: Text((index + 1).toString()),
-      title: Text(item.name),
-      trailing: item.isIgnored ? Icon(Icons.do_not_disturb_on,
-          color: Colors.red) : null,
-      onTap: () {},
+    return Slidable(
+      actionPane: SlidableDrawerActionPane(),
+      child: ListTile(
+        // leading: Text((index + 1).toString()),
+        title: Text(item.name),
+        trailing: IconButton(
+          icon: Icon(Icons.do_not_disturb_on),
+          onPressed: () {},
+        ),
+        onTap: () {},
+      ),
+      actions: [
+        IconSlideAction(
+          caption: 'Создать \nресурс',
+          color: Colors.green,
+          icon: Icons.add,
+          onTap: () {},
+        ),
+        IconSlideAction(
+          caption: 'Изменить',
+          color: Colors.blue,
+          icon: Icons.edit,
+          onTap: () {},
+        ),
+        IconSlideAction(
+          caption: 'Удалить',
+          color: Colors.red,
+          icon: Icons.delete,
+          onTap: () {},
+        ),
+      ],
     );
   }
 
