@@ -12,9 +12,38 @@ import 'screens/settings.dart';
 import 'utils/apiClient.dart';
 
 
+class App extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Приложуха',
+      theme: ThemeData.light(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.green,
+        primaryColor: Colors.green,
+        accentColor: Colors.greenAccent[700],
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      themeMode: context.watch<ThemeModeStorage>().mode,
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => LoginPage(),
+        '/registration': (context) => RegistrationPage(),
+        '/settings': (context) => SettingsPage(),
+        '/home': (context) => HomePage(),
+        '/profile': (context) => ProfilePage(),
+        '/about': (context) => AboutPage(),
+      },
+    );
+  }
+}
+
+
 void main() {
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(create: (context) => ThemeModeStorage()),
       Provider(create: (context) => HttpApiClient()),
       ChangeNotifierProxyProvider<HttpApiClient, UserRepo>(
         create: (context) => UserRepo(),
@@ -25,24 +54,6 @@ void main() {
         update: (context, client, repo) => repo..setClient(client),
       ),
     ],
-    child: MaterialApp(
-      title: 'Приложуха',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.green,
-        primaryColor: Colors.green,
-        accentColor: Colors.greenAccent[700],
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => LoginPage(),
-        '/registration': (context) => RegistrationPage(),
-        '/settings': (context) => SettingsPage(),
-        '/home': (context) => HomePage(),
-        '/profile': (context) => ProfilePage(),
-        '/about': (context) => AboutPage(),
-      },
-    ),
+    child: App(),
   ));
 }
