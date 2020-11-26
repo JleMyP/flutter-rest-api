@@ -4,18 +4,18 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../repos/user.dart';
-import '../utils/apiClient.dart';
+import '../utils/api_client.dart';
 import '../utils/dialogs.dart';
 import '../utils/validators.dart';
 
 
 class LoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -97,10 +97,11 @@ class _LoginPageState extends State<LoginPage> {
     var userRepo = context.read<UserRepo>();
     setState(() => _isLoading = true);
     try {
-      await userRepo.authenticate(_loginController.text, _passwordController.text);
+      await userRepo.authenticate(_loginController.text,
+          _passwordController.text);
       await _storeAuth();
       Navigator.of(context).pushNamedAndRemoveUntil('/home', (_) => false);
-    } catch (e) {
+    } on Exception catch (e) {
       await showSimpleDialog(context, 'Авторизация не удалась (', e.toString());
       setState(() => _isLoading = false);
     }
@@ -122,7 +123,8 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController.text = sharedPreferences.getString('auth:password');
     var autoLogin = sharedPreferences.getBool('auth:autoLogin') ?? false;
 
-    if (autoLogin && _loginController.text != null && _passwordController.text != null) {
+    if (autoLogin && _loginController.text != null &&
+        _passwordController.text != null) {
       await _login();
     }
   }

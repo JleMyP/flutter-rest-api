@@ -10,11 +10,11 @@ import '../utils/validators.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
-  _RegistrationPageState createState() => _RegistrationPageState();
+  RegistrationPageState createState() => RegistrationPageState();
 }
 
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -109,7 +109,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         _lastNameController.text,
         _middleNameController.text,
       );
-    } catch (e) {
+    } on Exception catch (e) {
       await showSimpleDialog(context, 'Регистрация не удалась (', e.toString());
     }
 

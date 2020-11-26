@@ -43,7 +43,7 @@ class LimitOffsetPaginator<T, K> extends Paginator {
   int limit = 25;
   int count;
 
-  LimitOffsetPaginator.withRepo(repo) : super.withRepo(repo);
+  LimitOffsetPaginator.withRepo(repo): super.withRepo(repo);
 
   @override
   bool get isEnd {
@@ -86,7 +86,7 @@ class LimitOffsetPaginator<T, K> extends Paginator {
     ResultAndMeta<dynamic> pair;
     try {
       pair = await repo.getList(params: _params);
-    } catch (e) {
+    } on Exception {
       loadingIsFailed = true;
       return null;
     }

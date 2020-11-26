@@ -28,10 +28,12 @@ class JwtTokenPair {
   DateTime refreshExpire;
 
   JwtTokenPair(this.access, this.refresh) {
-    Map<String, dynamic> accessDecoded = JwtDecoder.decode(access);
-    accessExpire = DateTime.fromMillisecondsSinceEpoch(accessDecoded['exp'] * 1000);
-    Map<String, dynamic> refreshDecoded = JwtDecoder.decode(refresh);
-    refreshExpire = DateTime.fromMillisecondsSinceEpoch(refreshDecoded['exp'] * 1000);
+    var accessDecoded = JwtDecoder.decode(access);
+    accessExpire = DateTime.fromMillisecondsSinceEpoch(
+        accessDecoded['exp'] * 1000);
+    var refreshDecoded = JwtDecoder.decode(refresh);
+    refreshExpire = DateTime.fromMillisecondsSinceEpoch(
+        refreshDecoded['exp'] * 1000);
     // TODO: checks: type, time
   }
 
@@ -80,7 +82,8 @@ class ExceptionWrapInterceptor extends Interceptor {
     }
 
     var data = error.response.data;
-    if (!(error.response.headers['content-type'][0] ?? '').contains('application/json')) {
+    if (!(error.response.headers['content-type'][0] ?? '').contains(
+        'application/json')) {
       return ApiException(
         rawData: data,
         originalException: error,
@@ -168,7 +171,8 @@ class HttpApiClient {
     ]);
   }
 
-  configure(String scheme, String host, int port, bool fake, bool offline, int netDelay) {
+  configure(String scheme, String host, int port, bool fake, bool offline,
+      int netDelay) {
     this.scheme = scheme;
     this.host = host;
     this.port = port;
@@ -180,13 +184,14 @@ class HttpApiClient {
   }
 
   _setBaseUrl() {
-    String portString = port != null ? ':$port' : '';
+    var portString = port != null ? ':$port' : '';
     httpClient.options.baseUrl = '$scheme://$host$portString/api/v1';
   }
 
   authenticate(Map<String, dynamic> authData) async {
     var response = await post(authUrl, authData);
-    refresher.setToken(JwtTokenPair(response['access'], response['refresh']).asOauth());
+    refresher.setToken(JwtTokenPair(response['access'],
+        response['refresh']).asOauth());
   }
 
   logout() {

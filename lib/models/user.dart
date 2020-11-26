@@ -16,7 +16,7 @@ class User {
   });
 
   String get shortName {
-    String short = '';
+    var short = '';
     if ((firstName ?? '').isNotEmpty && (lastName ?? '').isNotEmpty) {
       short = '$lastName ${firstName[0]}.';
       if ((middleName ?? '').isNotEmpty) {

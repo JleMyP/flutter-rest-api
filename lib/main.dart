@@ -9,7 +9,7 @@ import 'screens/login.dart';
 import 'screens/profile.dart';
 import 'screens/registration.dart';
 import 'screens/settings.dart';
-import 'utils/apiClient.dart';
+import 'utils/api_client.dart';
 
 
 class App extends StatelessWidget {

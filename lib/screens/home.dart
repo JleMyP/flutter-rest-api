@@ -26,7 +26,7 @@ class SelectedScreenStore with ChangeNotifier {
 
 class HomePage extends StatelessWidget {
   final _sideMenuKey = GlobalKey<SideMenuState>();
-  final _bodyKey = GlobalKey<_BodyState>();
+  final _bodyKey = GlobalKey<BodyState>();
 
   @override
   Widget build(BuildContext context) {
@@ -47,22 +47,23 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   final _state = _sideMenuKey.currentState;
 
-                if (_state.isOpened) {
-                  _state.closeSideMenu();
-                } else {
-                  _state.openSideMenu();
-                }
-              },
+                  if (_state.isOpened) {
+                    _state.closeSideMenu();
+                  } else {
+                    _state.openSideMenu();
+                  }
+                },
+              ),
             ),
+            body: SafeArea(
+              child: Body(_bodyKey),
+            ),
+            bottomNavigationBar: ConvexBottomBar(), // BottomBar(),
+            floatingActionButton: FloatingButton(),
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            // TODO: не рендерить консольку в release mode или по флагам
+            endDrawer: LogConsole(dark: true, showCloseButton: true),
           ),
-          body: SafeArea(
-            child: Body(_bodyKey),
-          ),
-          bottomNavigationBar: ConvexBottomBar(), // BottomBar(),
-          floatingActionButton: FloatingButton(),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          // TODO: не рендерить консольку в release mode или по флагам
-          endDrawer: LogConsole(dark: true, showCloseButton: true),
         ),
       ),
     );
@@ -135,11 +136,11 @@ class Body extends StatefulWidget {
   Body(Key key): super(key: key);
 
   @override
-  _BodyState createState() => _BodyState();
+  BodyState createState() => BodyState();
 }
 
 
-class _BodyState extends State<Body> {
+class BodyState extends State<Body> {
   int _prevScreen;
   LimitOffsetPaginator<ImportedResourceRepo, ImportedResource> paginator;
 
@@ -209,7 +210,8 @@ class _BodyState extends State<Body> {
     return ListTile(
       leading: Text((index + 1).toString()),
       title: Text(item.name),
-      trailing: item.isIgnored ? Icon(Icons.do_not_disturb_on, color: Colors.red) : null,
+      trailing: item.isIgnored ? Icon(Icons.do_not_disturb_on,
+          color: Colors.red) : null,
       onTap: () {},
     );
   }
@@ -255,7 +257,7 @@ class BottomBar extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.school), label: 'Не игнор'),
       ],
       currentIndex: screen.screen,
-      onTap: (int index) => _onItemTapped(screen, index),
+      onTap: (index) => _onItemTapped(screen, index),
     );
   }
 
@@ -283,7 +285,7 @@ class ConvexBottomBar extends StatelessWidget {
         TabItem(icon: Icons.map, title: 'Игнор'),
         TabItem(icon: Icons.add, title: 'Не игнор'),
       ],
-      onTap: (int i) => _onItemTapped(screen, i),
+      onTap: (i) => _onItemTapped(screen, i),
     );
   }
 

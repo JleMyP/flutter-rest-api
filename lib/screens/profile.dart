@@ -8,11 +8,11 @@ import '../utils/dialogs.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  ProfilePageState createState() => ProfilePageState();
 }
 
 
-class _ProfilePageState extends State<ProfilePage> {
+class ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
@@ -89,9 +89,10 @@ class _ProfilePageState extends State<ProfilePage> {
         _middleNameController.text,
       );
       Navigator.of(context).pop();
-    } catch (e) {
+    } on Exception catch (e) {
       setState(() => _isLoading = false);
-      await showSimpleDialog(context, 'Не удалось обновить профиль', e.toString());
+      await showSimpleDialog(context, 'Не удалось обновить профиль',
+          e.toString());
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../utils/apiClient.dart';
 import '../models/user.dart';
+import '../utils/api_client.dart';
 
 
 class UserRepo with ChangeNotifier {
@@ -70,7 +70,8 @@ class UserRepo with ChangeNotifier {
     return currentUser;
   }
 
-  Future<User> update([String firstName, String lastName, String middleName]) async {
+  Future<User> update([String firstName, String lastName,
+      String middleName]) async {
     if (client.fake) {
       await Future.delayed(Duration(seconds: 2));
     } else {

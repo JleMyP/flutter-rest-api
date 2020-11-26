@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-showSimpleDialog(BuildContext parentContext, String title, String content) async {
+showSimpleDialog(BuildContext parentContext, String title,
+    String content) async {
   await showDialog(
     context: parentContext,
     builder: (context) => AlertDialog(
