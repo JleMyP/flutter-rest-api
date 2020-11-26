@@ -17,7 +17,9 @@ class UserRepo with ChangeNotifier {
 
   Future<User> authenticate(String username, String password) async {
     if (client.fake) {
-      await Future.delayed(Duration(seconds: 2));
+      if (client.netDelay != 0) {
+        await Future.delayed(Duration(seconds: client.netDelay));
+      }
       currentUser = User(
         username: username,
         firstName: 'Имя',
@@ -42,7 +44,9 @@ class UserRepo with ChangeNotifier {
   Future<User> register(String username, String password,
       [String firstName, String lastName, String middleName]) async {
     if (client.fake) {
-      await Future.delayed(Duration(seconds: 2));
+      if (client.netDelay != 0) {
+        await Future.delayed(Duration(seconds: client.netDelay));
+      }
       currentUser = User(
         username: username,
         firstName: firstName,
@@ -73,7 +77,9 @@ class UserRepo with ChangeNotifier {
   Future<User> update([String firstName, String lastName,
       String middleName]) async {
     if (client.fake) {
-      await Future.delayed(Duration(seconds: 2));
+      if (client.netDelay != 0) {
+        await Future.delayed(Duration(seconds: client.netDelay));
+      }
     } else {
       var data = {
         'first_name': firstName,
