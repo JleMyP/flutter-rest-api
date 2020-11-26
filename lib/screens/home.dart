@@ -9,6 +9,7 @@ import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import '../models/imported_resource.dart';
 import '../repos/imported_resources.dart';
 import '../repos/user.dart';
+import '../utils/dialogs.dart';
 import '../utils/paginators.dart';
 
 
@@ -29,20 +30,22 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SelectedScreenStore>(
-      create: (context) => SelectedScreenStore(),
-      child: SideMenu(
-        background: Theme.of(context).dialogBackgroundColor,
-        key: _sideMenuKey,
-        type: SideMenuType.slideNRotate,
-        menu: LeftMenu(),
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text('Дом'),
-            leading: IconButton(
-              icon: Icon(Icons.menu),
-              onPressed: () {
-                final _state = _sideMenuKey.currentState;
+    return WillPopScope(
+      onWillPop: () async => await _exit(context),
+      child: ChangeNotifierProvider<SelectedScreenStore>(
+        create: (context) => SelectedScreenStore(),
+        child: SideMenu(
+          background: Theme.of(context).dialogBackgroundColor,
+          key: _sideMenuKey,
+          type: SideMenuType.slideNRotate,
+          menu: LeftMenu(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text('Дом'),
+              leading: IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: () {
+                  final _state = _sideMenuKey.currentState;
 
                 if (_state.isOpened) {
                   _state.closeSideMenu();
@@ -63,6 +66,10 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _exit(BuildContext context) async {
+    return await showConfirmDialog(context, 'Выйти?', null);
   }
 }
 
